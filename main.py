@@ -1,5 +1,6 @@
 import sys, os, csv, time
 from checker import ping_server
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 def main():
@@ -29,10 +30,29 @@ def main():
             with open("status_check.csv", "a", newline="") as file:  # Append status to csv file
                 writer = csv.writer(file)
                 writer.writerow([host, status,time.strftime("%Y-%m-%d %H:%M:%S")])
-
+            
+            data = read_csv_to_dict("status_check")
+            render_template("check", data, "check")
+            
     else:
         print("Use: python main.py [manage | check]")
         return
+
+
+def read_csv_to_dict(filename):
+    with open(f"{filename}.csv", "r") as file:
+        reader = csv.DictReader(file)
+        return list(reader)
+    
+
+def render_template(template_name, data, page):
+    env = Environment(loader=FileSystemLoader('templates'))
+    template = env.get_template(f"{template_name}.html")
+
+    html_output = template.render(csv_data=data)
+
+    with open(f"./pages/{page}.html", "w") as file:
+        file.write(html_output)
 
 
 if __name__ == "__main__":
