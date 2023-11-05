@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server Status</title>
+    <style>
+      .container {
+        display: flex;
+      }
+      .column {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="column">
+        <h2>Host</h2>
+        {% for item in csv_data %}
+        <p>{{ item.host }}</p>
+        {% endfor %}
+      </div>
+      <div class="column">
+        <h2>Status</h2>
+        {% for item in csv_data %}
+        <p>{{ item.status }}</p>
+        {% endfor %}
+      </div>
+      <div class="column">
+        <h2>Time</h2>
+        {% for item in csv_data %}
+        <p>{{ item.time }}</p>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>
